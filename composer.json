@@ -1,0 +1,24 @@
+{
+    "name": "agenciafmd/filament-redirects",
+    "description": "Filament redirects for Admix",
+    "license": "MIT",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Agenciafmd\\Redirects\\": "src/",
+            "Agenciafmd\\Redirects\\Database\\Factories\\": "database/factories/",
+            "Agenciafmd\\Redirects\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "require": {
+        "php": "^8.4",
+        "filament/filament": "^4.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Agenciafmd\\Redirects\\Providers\\RedirectServiceProvider"
+            ]
+        }
+    }
+}
