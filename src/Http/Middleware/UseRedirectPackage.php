@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Http\Middleware;
 
 use Agenciafmd\Redirects\Models\Redirect;
 use Closure;
 use Illuminate\Http\Request;
 
-class UseRedirectPackage
+final class UseRedirectPackage
 {
     public function handle(Request $request, Closure $next)
     {
@@ -23,9 +25,9 @@ class UseRedirectPackage
                 ->get()
                 ->map(static function ($item) {
                     $item['from'] = config('app.url') . '/' . str($item->from)
-                            ->trim('/')
-                            ->trim()
-                            ->__toString();
+                        ->trim('/')
+                        ->trim()
+                        ->__toString();
 
                     return $item;
                 })

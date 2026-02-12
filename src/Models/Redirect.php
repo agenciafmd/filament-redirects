@@ -5,6 +5,7 @@ namespace Agenciafmd\Redirects\Models;
 use Agenciafmd\Redirects\Database\Factories\RedirectFactory;
 use Agenciafmd\Redirects\Observers\RedirectObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,5 +32,11 @@ class Redirect extends Model implements AuditableContract
         return [
             'is_active' => 'boolean',
         ];
+    }
+
+    #[Scope]
+    protected function isActive(Builder $query): void
+    {
+        $query->where('is_active', true);
     }
 }
