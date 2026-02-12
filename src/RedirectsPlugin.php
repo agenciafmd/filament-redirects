@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects;
 
 use Agenciafmd\Redirects\Resources\Redirects\RedirectResource;

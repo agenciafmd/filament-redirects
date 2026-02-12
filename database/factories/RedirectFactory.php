@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Database\Factories;
 
 use Agenciafmd\Redirects\Models\Redirect;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RedirectFactory extends Factory
+final class RedirectFactory extends Factory
 {
     protected $model = Redirect::class;
 

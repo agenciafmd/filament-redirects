@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Observers;
 
 use Agenciafmd\Redirects\Models\Redirect;
 
-class RedirectObserver
+final class RedirectObserver
 {
     public function saved(Redirect $model): void
     {

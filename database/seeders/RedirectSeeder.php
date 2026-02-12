@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Database\Seeders;
 
 use Agenciafmd\Redirects\Models\Redirect;
 use Illuminate\Database\Seeder;
 
-class RedirectSeeder extends Seeder
+final class RedirectSeeder extends Seeder
 {
     public function run(): void
     {

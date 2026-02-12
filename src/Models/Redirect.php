@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Models;
 
 use Agenciafmd\Redirects\Database\Factories\RedirectFactory;
@@ -17,7 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 #[ObservedBy(RedirectObserver::class)]
 #[UseFactory(RedirectFactory::class)]
-class Redirect extends Model implements AuditableContract
+final class Redirect extends Model implements AuditableContract
 {
     use Auditable, HasFactory, Prunable, SoftDeletes;
 

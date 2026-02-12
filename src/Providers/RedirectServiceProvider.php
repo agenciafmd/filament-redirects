@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Providers;
 
 use Illuminate\Support\ServiceProvider;

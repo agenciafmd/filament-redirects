@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agenciafmd\Redirects\Resources\Redirects\Pages;
 
 use Agenciafmd\Admix\Resources\Concerns\RedirectBack;
@@ -9,7 +11,7 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditRedirect extends EditRecord
+final class EditRedirect extends EditRecord
 {
     use RedirectBack;
 
