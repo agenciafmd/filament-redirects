@@ -34,12 +34,12 @@ final class RedirectServiceProvider extends ServiceProvider
 
     private function bootTranslations(): void
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'local-redirects');
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'filament-redirects');
         $this->loadJsonTranslationsFrom(__DIR__ . '/../../lang');
     }
 
     private function registerConfigs(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/filament-redirects.php', 'local-redirects');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/filament-redirects.php', 'filament-redirects');
     }
 }
