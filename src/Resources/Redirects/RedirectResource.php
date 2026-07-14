@@ -25,8 +25,6 @@ final class RedirectResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowRightOnRectangle;
 
-    protected static ?int $navigationSort = 1000;
-
     protected static ?string $recordTitleAttribute = 'from';
 
     public static function getModelLabel(): string
@@ -37,6 +35,16 @@ final class RedirectResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return __('Redirects');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return config('filament-redirects.navigation_sort');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return config('filament-redirects.navigation_group');
     }
 
     public static function form(Schema $schema): Schema
