@@ -7,15 +7,31 @@ namespace Agenciafmd\Redirects\Http\Middleware;
 use Agenciafmd\Redirects\Models\Redirect;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\Response;
 
 final class UseRedirectPackage
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        $uri = $request->url();
+        $redirects = collect($this->redirects());
+        $path = trim($request->path(), '/');
 
-        $redirects = cache()->rememberForever('use-redirect-package', static fn (): Collection => collect(Redirect::query()
+        $redirect = $redirects->firstWhere('from', $path)
+            ?? $redirects->first(fn (array $redirect): bool => str_ends_with($redirect['from'], '*') && $request->is($redirect['from']));
+
+        if ($redirect !== null) {
+            return redirect()->to($redirect['to'], $redirect['type']);
+        }
+
+        return $next($request);
+    }
+
+    /**
+     * @return array<int, array{from: string, to: string, type: int}>
+     */
+    private function redirects(): array
+    {
+        return cache()->rememberForever('use-redirect-package', static fn (): array => Redirect::query()
             ->isActive()
             ->select([
                 'from',
@@ -23,39 +39,11 @@ final class UseRedirectPackage
                 'type',
             ])
             ->get()
-            ->map(static function (array $item): array {
-                $item['from'] = config('app.url') . '/' . str($item->from)
-                    ->trim('/')
-                    ->trim()
-                    ->__toString();
-
-                return $item;
-            })
-            ->toArray()));
-
-        $redirect = $redirects->where('from', $uri)
-            ->first();
-        if ($redirect) {
-            return redirect()->to($redirect['to'], $redirect['type']);
-        }
-
-        $wildCardRedirect = $redirects->map(function (array $redirect): array {
-            $redirect['from'] = str($redirect['from'])
-                ->replace(config('app.url'), '')
-                ->trim('/')
-                ->trim()
-                ->__toString();
-
-            return $redirect;
-        })
-            ->filter(static fn (array $redirect) => str($redirect['from'])
-                ->endsWith('*'))
-            ->filter(fn (array $redirect) => $request->is($redirect['from']))
-            ->first();
-        if ($wildCardRedirect) {
-            return redirect()->to($wildCardRedirect['to'], $wildCardRedirect['type']);
-        }
-
-        return $next($request);
+            ->map(static fn (Redirect $redirect): array => [
+                'from' => trim(mb_trim($redirect->from), '/'),
+                'to' => $redirect->to,
+                'type' => (int) $redirect->type,
+            ])
+            ->all());
     }
 }
