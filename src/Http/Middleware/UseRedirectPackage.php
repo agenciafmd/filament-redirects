@@ -14,7 +14,7 @@ final class UseRedirectPackage
     public function handle(Request $request, Closure $next): Response
     {
         $redirects = collect($this->redirects());
-        $path = trim($request->path(), '/');
+        $path = mb_trim($request->path(), '/');
 
         $redirect = $redirects->firstWhere('from', $path)
             ?? $redirects->first(fn (array $redirect): bool => str_ends_with($redirect['from'], '*') && $request->is($redirect['from']));
@@ -40,7 +40,7 @@ final class UseRedirectPackage
             ])
             ->get()
             ->map(static fn (Redirect $redirect): array => [
-                'from' => trim(mb_trim($redirect->from), '/'),
+                'from' => mb_trim(mb_trim($redirect->from), '/'),
                 'to' => $redirect->to,
                 'type' => (int) $redirect->type,
             ])
