@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'name' => 'Redirecionamentos',
+    'name' => 'Redirects',
     'navigation_group' => null,
     'navigation_sort' => 1000,
 ];
