@@ -7,6 +7,9 @@ namespace Agenciafmd\Redirects\Database\Factories;
 use Agenciafmd\Redirects\Models\Redirect;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Redirect>
+ */
 final class RedirectFactory extends Factory
 {
     protected $model = Redirect::class;

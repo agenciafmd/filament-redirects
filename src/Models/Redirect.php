@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Agenciafmd\Redirects\Models;
 
+use Agenciafmd\Admix\Traits\WithScopes;
 use Agenciafmd\Redirects\Database\Factories\RedirectFactory;
 use Agenciafmd\Redirects\Observers\RedirectObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -21,7 +22,16 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 #[UseFactory(RedirectFactory::class)]
 final class Redirect extends Model implements AuditableContract
 {
-    use Auditable, HasFactory, Prunable, SoftDeletes;
+    use Auditable;
+    use HasFactory;
+    use Prunable;
+    use SoftDeletes;
+    use WithScopes;
+
+    protected array $defaultSort = [
+        'is_active' => 'desc',
+        'from' => 'asc',
+    ];
 
     public function prunable(): Builder
     {
@@ -34,11 +44,5 @@ final class Redirect extends Model implements AuditableContract
         return [
             'is_active' => 'boolean',
         ];
-    }
-
-    #[Scope]
-    protected function isActive(Builder $query): void
-    {
-        $query->where('is_active', true);
     }
 }

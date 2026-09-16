@@ -7,6 +7,7 @@ namespace Agenciafmd\Redirects\Http\Middleware;
 use Agenciafmd\Redirects\Models\Redirect;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 final class UseRedirectPackage
 {
@@ -14,25 +15,23 @@ final class UseRedirectPackage
     {
         $uri = $request->url();
 
-        $redirects = cache()->rememberForever('use-redirect-package', static function () {
-            return collect(Redirect::query()
-                ->isActive()
-                ->select([
-                    'from',
-                    'to',
-                    'type',
-                ])
-                ->get()
-                ->map(static function ($item) {
-                    $item['from'] = config('app.url') . '/' . str($item->from)
-                        ->trim('/')
-                        ->trim()
-                        ->__toString();
+        $redirects = cache()->rememberForever('use-redirect-package', static fn (): Collection => collect(Redirect::query()
+            ->isActive()
+            ->select([
+                'from',
+                'to',
+                'type',
+            ])
+            ->get()
+            ->map(static function (array $item): array {
+                $item['from'] = config('app.url') . '/' . str($item->from)
+                    ->trim('/')
+                    ->trim()
+                    ->__toString();
 
-                    return $item;
-                })
-                ->toArray());
-        });
+                return $item;
+            })
+            ->toArray()));
 
         $redirect = $redirects->where('from', $uri)
             ->first();
@@ -40,7 +39,7 @@ final class UseRedirectPackage
             return redirect()->to($redirect['to'], $redirect['type']);
         }
 
-        $wildCardRedirect = $redirects->map(function ($redirect) {
+        $wildCardRedirect = $redirects->map(function (array $redirect): array {
             $redirect['from'] = str($redirect['from'])
                 ->replace(config('app.url'), '')
                 ->trim('/')
@@ -49,13 +48,9 @@ final class UseRedirectPackage
 
             return $redirect;
         })
-            ->filter(static function ($redirect) {
-                return str($redirect['from'])
-                    ->endsWith('*');
-            })
-            ->filter(function ($redirect) use ($request) {
-                return $request->is($redirect['from']);
-            })
+            ->filter(static fn (array $redirect) => str($redirect['from'])
+                ->endsWith('*'))
+            ->filter(fn (array $redirect) => $request->is($redirect['from']))
             ->first();
         if ($wildCardRedirect) {
             return redirect()->to($wildCardRedirect['to'], $wildCardRedirect['type']);

@@ -52,9 +52,6 @@ final class RedirectsTable
                     RestoreBulkAction::make(),
                 ]),
             ])
-            ->defaultSort(function (Builder $query): Builder {
-                return $query->orderBy('is_active', 'desc')
-                    ->orderBy('from');
-            });
+            ->defaultSort(fn (Builder $query): Builder => $query->sort());
     }
 }

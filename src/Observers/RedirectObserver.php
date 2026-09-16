@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Agenciafmd\Redirects\Observers;
 
-use Agenciafmd\Redirects\Models\Redirect;
-
 final class RedirectObserver
 {
-    public function saved(Redirect $model): void
+    public function saved(): void
     {
         cache()->forget('use-redirect-package');
     }
