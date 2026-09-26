@@ -39,12 +39,16 @@ final class RedirectResource extends Resource
 
     public static function getNavigationSort(): ?int
     {
-        return config('filament-redirects.navigation_sort');
+        $navigationSort = config('filament-redirects.navigation_sort');
+
+        return is_int($navigationSort) ? $navigationSort : null;
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return config('filament-redirects.navigation_group');
+        $navigationGroup = config('filament-redirects.navigation_group');
+
+        return is_string($navigationGroup) ? $navigationGroup : null;
     }
 
     public static function form(Schema $schema): Schema

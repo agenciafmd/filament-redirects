@@ -23,16 +23,25 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 final class Redirect extends Model implements AuditableContract
 {
     use Auditable;
+
+    /** @use HasFactory<RedirectFactory> */
     use HasFactory;
+
     use Prunable;
     use SoftDeletes;
     use WithScopes;
 
+    /**
+     * @var array<string, 'asc'|'desc'>
+     */
     protected array $defaultSort = [
         'is_active' => 'desc',
         'from' => 'asc',
     ];
 
+    /**
+     * @return Builder<self>
+     */
     public function prunable(): Builder
     {
         return self::query()

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Agenciafmd\Redirects\Resources\Redirects\Pages;
 
 use Agenciafmd\Admix\Resources\Concerns\RedirectBack;
+use Agenciafmd\Redirects\Models\Redirect;
 use Agenciafmd\Redirects\Resources\Redirects\RedirectResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
@@ -17,13 +18,18 @@ final class EditRedirect extends EditRecord
 
     protected static string $resource = RedirectResource::class;
 
+    /**
+     * @var array<int, string>
+     */
     protected $listeners = [
         'auditRestored',
     ];
 
     public function getRelationManagers(): array
     {
-        if ($this->record->trashed()) {
+        $record = $this->getRecord();
+
+        if ($record instanceof Redirect && $record->trashed()) {
             return [];
         }
 

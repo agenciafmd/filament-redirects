@@ -37,8 +37,8 @@ final class RedirectForm
                                         ->hiddenLabel(),
                                     TextInput::make('from')
                                         ->translateLabel()
-                                        ->prefix(config('app.url'))
-                                        ->dehydrateStateUsing(fn (?string $state): string => '/' . mb_trim($state, '/'))
+                                        ->prefix(config()->string('app.url'))
+                                        ->dehydrateStateUsing(static fn (?string $state): string => '/' . mb_trim($state ?? '', '/'))
                                         ->required(),
                                     TextInput::make('to')
                                         ->translateLabel()

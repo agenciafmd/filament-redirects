@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class UseRedirectPackage
 {
+    /**
+     * @param  Closure(Request): Response  $next
+     */
     public function handle(Request $request, Closure $next): Response
     {
         $redirects = collect($this->redirects());
