@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
+pest()->extend(TestCase::class)->use(RefreshDatabase::class);
 
 function handleRedirect(string $uri): Response
 {

@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 use function Pest\Laravel\seed;
 
-uses(TestCase::class, RefreshDatabase::class);
+pest()->extend(TestCase::class)->use(RefreshDatabase::class);
 
 it('seeds the redirects from the factory', function (): void {
     seed(RedirectSeeder::class);

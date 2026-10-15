@@ -8,7 +8,7 @@ use Agenciafmd\Redirects\Models\Redirect;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
+pest()->extend(TestCase::class)->use(RefreshDatabase::class);
 
 it('clears the redirects cache when a redirect changes', function (string $change): void {
     $redirect = Redirect::factory()->create();
