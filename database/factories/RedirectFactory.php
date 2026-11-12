@@ -6,12 +6,14 @@ namespace Agenciafmd\Redirects\Database\Factories;
 
 use Agenciafmd\Redirects\Models\Redirect;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Override;
 
 /**
  * @extends Factory<Redirect>
  */
 final class RedirectFactory extends Factory
 {
+    #[Override]
     protected $model = Redirect::class;
 
     public function definition(): array
